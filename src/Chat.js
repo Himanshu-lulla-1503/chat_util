@@ -1,3 +1,4 @@
+import { current } from 'immer'
 import React from 'react'
 import Group from './Group'
 const Chat = (props) => {
@@ -13,23 +14,27 @@ const Chat = (props) => {
         <div>
             <ul>
                 {props.rooms.map((c,i)=>{
-                   return <Group value={c} toggle={(id)=>props.toggle(id)}/>
+                   return <Group value={c} toggle={(id)=>props.toggle(id)} leavegroup={(id)=>props.leavegroup(id)}/>
                 })}
             </ul>
         </div>
         :null}
         </div>
         <div>
-        {props.users.length!=0?
+        {props.users[props.current]&&
         <div>
             <ul>
-                {props.users.map((c,i)=>{
-                   return <li>{c.name}</li>
+                {props.users[props.current].map((c,i)=>{
+                   return <li onClick={()=>props.toggleonetoonechat(c.id)}>{c.name}</li>
                 })}
             </ul>
         </div>
-        :null}
+        }
 
+        </div>
+        <div>
+            <input type="text" placeholder="Enter Your message" onChange={props.messagechange} value={props.message} />
+            <button onClick={props.sendmessage}>Send</button>
         </div>
 
 
